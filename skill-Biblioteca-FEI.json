@@ -1,0 +1,322 @@
+{
+  "intents": [
+    {
+      "intent": "ficha",
+      "examples": [
+        {
+          "text": "catalografia"
+        },
+        {
+          "text": "ficha"
+        },
+        {
+          "text": "Ficha Catalográfica"
+        },
+        {
+          "text": "fichas"
+        },
+        {
+          "text": "fichas catalograficas"
+        },
+        {
+          "text": "quero saber sobre fichas catalográficas"
+        }
+      ],
+      "description": "Usuário diz que deseja saber sobre as Fichas Catalográficas."
+    },
+    {
+      "intent": "plagio",
+      "examples": [
+        {
+          "text": "Plagio"
+        },
+        {
+          "text": "Plágio"
+        },
+        {
+          "text": "quero saber sobre plagio"
+        },
+        {
+          "text": "sobre plagios"
+        }
+      ],
+      "description": "Usuário diz que deseja saber sobre os plágios."
+    },
+    {
+      "intent": "trabalhos-academicos",
+      "examples": [
+        {
+          "text": "academico"
+        },
+        {
+          "text": "Seção de trabalhos acadêmicos"
+        },
+        {
+          "text": "trabalho"
+        },
+        {
+          "text": "trabalhos"
+        },
+        {
+          "text": "Trabalhos academicos"
+        }
+      ],
+      "description": "O usuário faz pergunta em relação aos trabalhos acadêmicos."
+    },
+    {
+      "intent": "voltar",
+      "examples": [
+        {
+          "text": "Voltar"
+        }
+      ],
+      "description": "Voltar para o inicio"
+    }
+  ],
+  "entities": [
+    {
+      "entity": "seções",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Ficha Catalográfica",
+          "synonyms": [
+            "Catalografia",
+            "Ficha",
+            "Ficha para Catalografar",
+            "fichas",
+            "Fichas catalograficas"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Plágio",
+          "synonyms": [
+            "plagio",
+            "plágio"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    }
+  ],
+  "metadata": {
+    "api_version": {
+      "major_version": "v2",
+      "minor_version": "2018-11-08"
+    }
+  },
+  "dialog_nodes": [
+    {
+      "type": "standard",
+      "title": "Bem-vindo",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Olá. Bem-vindo(a) à Biblioteca FEI. Como posso te ajudar?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "welcome",
+      "dialog_node": "Bem-vindo"
+    },
+    {
+      "type": "standard",
+      "title": "Em outros casos",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Eu não entendi. Você pode tentar reformular a frase."
+              },
+              {
+                "text": "Você pode reformular sua afirmação? Eu não estou entendendo."
+              },
+              {
+                "text": "Eu não entendi o sentido."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "anything_else",
+      "dialog_node": "Em outros casos",
+      "previous_sibling": "node_5_1614801289574",
+      "disambiguation_opt_out": true
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_8_1614808239179",
+      "context": {
+        "secao": "@seções"
+      },
+      "conditions": "@seções",
+      "event_name": "input",
+      "dialog_node": "handler_10_1614808239188"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_5_1614808342305",
+      "context": {
+        "secao": "@seções"
+      },
+      "conditions": "@seções",
+      "event_name": "input",
+      "dialog_node": "handler_10_1614808342315"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_8_1614808239179",
+      "event_name": "focus",
+      "dialog_node": "handler_3_1614808239188",
+      "previous_sibling": "handler_10_1614808239188"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_5_1614808342305",
+      "event_name": "focus",
+      "dialog_node": "handler_7_1614808342315",
+      "previous_sibling": "handler_10_1614808342315"
+    },
+    {
+      "type": "standard",
+      "title": "Voltar",
+      "output": {
+        "generic": []
+      },
+      "parent": "node_7_1614807454496",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_5_1614801289574"
+      },
+      "conditions": "#voltar",
+      "dialog_node": "node_1_1614807929097",
+      "previous_sibling": "slot_8_1614808239179"
+    },
+    {
+      "type": "standard",
+      "title": "Trabalhos Acadêmicos",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Sobre Trabalhos Acadêmicos, o que deseja saber?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "conditions": "#trabalhos-academicos",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_5_1614801289574",
+      "previous_sibling": "Bem-vindo"
+    },
+    {
+      "type": "frame",
+      "title": "Fichas Catalográficas",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Sobre $secao:\n\nA biblioteca da FEI disponibiliza para seus usuários o sistema para elaboração de fichas catalográficas que foi desenvolvido pelo ICMC/USP e gentilmente cedido para ser adaptado às necessidades de sua comunidade acadêmica.\n\nA partir de outubro de 2015 a ficha catalográfica passa a ser elaborada pelo próprio usuário e deve ser impressa no verso da página/folha de rosto.\n\nÉ um elemento obrigatório em trabalhos acadêmicos e sua elaboração é feita com as informações fundamentais para a identificação do documento, entre elas: autor e orientador, título, total de folhas, assunto, palavras-chave, etc.\n\nPara retornar e pesquisar outro assunto, digite \"Voltar\"."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_5_1614801289574",
+      "conditions": "#ficha",
+      "dialog_node": "node_7_1614807454496"
+    },
+    {
+      "type": "frame",
+      "title": "Combate ao Plágio",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Sobre $secao:\n\nA biblioteca do Centro Universitário FEI, por recomendação da Coordenação de Aperfeiçoamento de Pessoal de Nível Superior (CAPES), divulga ao seu público um texto informativo, com intuito de coibir o plágio nas produções acadêmicas desenvolvidas na IES.\n\nPara retornar e pesquisar outro assunto, digite \"Voltar\"."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_5_1614801289574",
+      "conditions": "#plagio",
+      "dialog_node": "node_8_1614807578565",
+      "previous_sibling": "node_7_1614807454496"
+    },
+    {
+      "type": "standard",
+      "title": "Voltar",
+      "output": {
+        "generic": []
+      },
+      "parent": "node_8_1614807578565",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_5_1614801289574"
+      },
+      "conditions": "#voltar",
+      "dialog_node": "node_9_1614808014997",
+      "previous_sibling": "slot_5_1614808342305"
+    },
+    {
+      "type": "slot",
+      "parent": "node_8_1614807578565",
+      "variable": "$secao",
+      "dialog_node": "slot_5_1614808342305"
+    },
+    {
+      "type": "slot",
+      "parent": "node_7_1614807454496",
+      "variable": "$secao",
+      "dialog_node": "slot_8_1614808239179"
+    }
+  ],
+  "counterexamples": [],
+  "system_settings": {
+    "disambiguation": {
+      "prompt": "Você quis dizer:",
+      "enabled": true,
+      "randomize": true,
+      "max_suggestions": 5,
+      "suggestion_text_policy": "title",
+      "none_of_the_above_prompt": "Nenhuma das anteriores"
+    },
+    "system_entities": {
+      "enabled": true
+    },
+    "human_agent_assist": {
+      "prompt": "Você quis dizer:"
+    }
+  },
+  "learning_opt_out": false,
+  "name": "Biblioteca FEI",
+  "language": "pt-br",
+  "description": ""
+}
