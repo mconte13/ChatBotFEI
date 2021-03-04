@@ -1,6 +1,27 @@
 {
   "intents": [
     {
+      "intent": "entrega",
+      "examples": [
+        {
+          "text": "como funciona a entrega dos trabalhos academicos?"
+        },
+        {
+          "text": "entrega dos trabalhos academicos"
+        },
+        {
+          "text": "entregar trabalhos academicos"
+        },
+        {
+          "text": "entregas"
+        },
+        {
+          "text": "Gostaria de saber sobre as entregas dos trabalhos academicos"
+        }
+      ],
+      "description": "Usuário diz que deseja saber sobre as entregas do Trabalho Acadêmico."
+    },
+    {
       "intent": "ficha",
       "examples": [
         {
@@ -77,6 +98,16 @@
     {
       "entity": "seções",
       "values": [
+        {
+          "type": "synonyms",
+          "value": "Entregas",
+          "synonyms": [
+            "entrega",
+            "entregar",
+            "entregas",
+            "entregas de trabalhos academicos"
+          ]
+        },
         {
           "type": "synonyms",
           "value": "Ficha Catalográfica",
@@ -192,6 +223,25 @@
       "previous_sibling": "handler_10_1614808342315"
     },
     {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_6_1614818450177",
+      "context": {
+        "secao": "@seções"
+      },
+      "conditions": "@seções",
+      "event_name": "input",
+      "dialog_node": "handler_7_1614818450184"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_6_1614818450177",
+      "event_name": "focus",
+      "dialog_node": "handler_8_1614818450184",
+      "previous_sibling": "handler_7_1614818450184"
+    },
+    {
       "type": "standard",
       "title": "Voltar",
       "output": {
@@ -206,6 +256,21 @@
       "conditions": "#voltar",
       "dialog_node": "node_1_1614807929097",
       "previous_sibling": "slot_8_1614808239179"
+    },
+    {
+      "type": "standard",
+      "title": "Voltar",
+      "output": {
+        "generic": []
+      },
+      "parent": "node_9_1614818435293",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_5_1614801289574"
+      },
+      "conditions": "#voltar",
+      "dialog_node": "node_3_1614818714338"
     },
     {
       "type": "standard",
@@ -286,10 +351,38 @@
       "previous_sibling": "slot_5_1614808342305"
     },
     {
+      "type": "frame",
+      "title": "Entregas",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Sobre $secao:\n\nOs trabalhos acadêmicos devem ser entregues de acordo com os procedimentos da secretaria do curso. Cabe ao orientador, juntamente com a secretaria, definir quais trabalhos serão entregues, assim como, efetuar a entrega na biblioteca.\n\nAlguns procedimentos são obrigatórios para que essa entrega seja realizada:\na) o trabalho acadêmico deve ser normalizado de acordo com as orientações do Guia para Elaboração de Trabalhos Acadêmicos da FEI;\nb) uma cópia impressa em capa dura na cor preta e letras douradas (Monografias e TCCs) ou na cor azul-marinho e letras douradas (Teses e Dissertações);\n- uma mídia (CD ou DVD) contendo somente o PDF/A para as monografias e TCCs;\n- uma cópia da versão final da dissertação ou tese no formato PDF/A encaminhada para o e-mail:\nbib.dissertacoes_teses\"+@+\"fei.edu.br;\n- termo de autorização para a publicação eletrônica preenchido e assinado por todos os autores do trabalho;\nc) a entrega na biblioteca deverá ser feita pelo orientador ou pela secretaria do curso. A biblioteca não aceita trabalhos entregues diretamente pelos alunos.\n\nPara retornar e pesquisar outro assunto, digite \"Voltar\"."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_5_1614801289574",
+      "conditions": "#entrega",
+      "dialog_node": "node_9_1614818435293",
+      "previous_sibling": "node_8_1614807578565"
+    },
+    {
       "type": "slot",
       "parent": "node_8_1614807578565",
       "variable": "$secao",
       "dialog_node": "slot_5_1614808342305"
+    },
+    {
+      "type": "slot",
+      "parent": "node_9_1614818435293",
+      "variable": "$secao",
+      "dialog_node": "slot_6_1614818450177",
+      "previous_sibling": "node_3_1614818714338"
     },
     {
       "type": "slot",
